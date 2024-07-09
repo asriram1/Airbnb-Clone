@@ -31,6 +31,10 @@ app.use(
   })
 );
 
+app.use("/", (req, res) => {
+  res.send("server is running.");
+});
+
 mongoose.connect(process.env.MONGO_URL);
 
 app.get("/test", (req, res) => {
@@ -247,7 +251,7 @@ app.get("/bookings", async (req, res) => {
   res.json(await BookingModel.find({ user: userData.id }).populate("place"));
 });
 
-app.listen(4000);
+app.listen(4000, console.log("server has started on port 4000."));
 
 // const { MongoClient, ServerApiVersion } = require('mongodb');
 // const uri = "mongodb+srv://booking:test@cluster0.hjsxgok.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
