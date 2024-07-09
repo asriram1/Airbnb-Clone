@@ -1,39 +1,85 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function PhotosUploader({ addedPhotos, onChange }) {
-  const [photoLink, setPhotoLink] = useState("");
-  async function addPhotoByLink(ev) {
-    ev.preventDefault();
-    const { data: filename } = await axios.post("/upload-by-link", {
-      link: photoLink,
-    });
-    onChange((prev) => {
-      addedPhotos = [...prev, filename];
-      return [...prev, filename];
-    });
-    setPhotoLink("");
-  }
+  // const [photoLink, setPhotoLink] = useState("");
+  const [localImages, setLocalImages] = useState([]);
+  const [error, setError] = useState(false);
 
-  function uploadPhoto(ev) {
-    const files = ev.target.files;
+  useEffect(() => {
+    onChange(localImages);
+  }, [localImages]);
+
+  // async function addPhotoByLink(ev) {
+  //   ev.preventDefault();
+  //   const { data: filename } = await axios.post("/upload-by-link", {
+  //     link: photoLink,
+  //   });
+  //   onChange((prev) => {
+  //     addedPhotos = [...prev, filename];
+  //     return [...prev, filename];
+  //   });
+  //   setPhotoLink("");
+  // }
+
+  async function uploadPhoto(files) {
+    // const files = ev.target.files;
     const data = new FormData();
 
+    const API_ENDPOINT =
+      "https://mtjjy516oc.execute-api.us-east-1.amazonaws.com/default/getPresignedUrl-airbnb";
+    const bucket = "airbnb-mern-app";
+    setLocalImages([]);
+    onChange([]);
+    let key = "";
     for (let i = 0; i < files.length; i++) {
-      data.append("photos", files[i]);
+      // data.append("photos", files[i]);
+
+      const getPresignedUrl = async () => {
+        const response = await axios({
+          method: "GET",
+          url: API_ENDPOINT,
+          withCredentials: false,
+        });
+        // return response;
+        const preSignedUrl = response.data.presignedUrl;
+        key = response.data.key;
+
+        return preSignedUrl;
+      };
+      const presignedUrl = await getPresignedUrl();
+      console.log(presignedUrl);
+      const uploadResponse = await axios.put(presignedUrl, files[i], {
+        withCredentials: false,
+        headers: {
+          "Content-Type": "image/jpeg",
+        },
+      });
+
+      if (uploadResponse.status !== 200) {
+        // toast.error("Upload Error");
+        setError(true);
+        break;
+      }
+
+      const link = "https://" + bucket + ".s3.amazonaws.com/" + key;
+      setLocalImages((prevItems) => [...prevItems, link]);
     }
 
-    axios
-      .post("/upload", data, {
-        headers: { "Content-type": "multipart/form-data" },
-      })
-      .then((response) => {
-        const { data: filenames } = response;
-        onChange((prev) => {
-          addedPhotos = [...prev, ...filenames];
-          return [...prev, ...filenames];
-        });
-      });
+    if (!error) {
+      // toast.success("Upload Complete");
+    }
+    // axios
+    //   .post("/upload", data, {
+    //     headers: { "Content-type": "multipart/form-data" },
+    //   })
+    //   .then((response) => {
+    //     const { data: filenames } = response;
+    //     onChange((prev) => {
+    //       addedPhotos = [...prev, ...filenames];
+    //       return [...prev, ...filenames];
+    //     });
+    //   });
   }
 
   function removePhoto(ev, filename) {
@@ -46,7 +92,7 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
   }
   return (
     <>
-      <div className="flex gap-2">
+      {/* <div className="flex gap-2">
         <input
           value={photoLink}
           onChange={(ev) => setPhotoLink(ev.target.value)}
@@ -59,7 +105,7 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
         >
           Add&nbsp;Photo
         </button>
-      </div>
+      </div> */}
 
       <div className="mt-2 grid gap-2 grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
         {addedPhotos.length > 0 &&
@@ -67,7 +113,8 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
             <div className="h-32 flex relative" key={link}>
               <img
                 className="rounded-2xl w-full object-cover"
-                src={"http://localhost:4000/uploads/" + link}
+                src={link}
+                // src={"http://localhost:4000/uploads/" + link}
               />
               <button
                 onClick={(ev) => removePhoto(ev, link)}
@@ -130,7 +177,10 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
             type="file"
             multiple
             className="hidden"
-            onChange={uploadPhoto}
+            onChange={(ev) => {
+              ev.preventDefault();
+              uploadPhoto(ev.target.files);
+            }}
           />
           <svg
             xmlns="http://www.w3.org/2000/svg"

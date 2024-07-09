@@ -20,9 +20,7 @@ export default function IndexPage() {
                 {place.addedPhotos?.[0] && (
                   <img
                     className="rounded-2xl object-cover aspect-square"
-                    src={
-                      "http://localhost:4000/uploads/" + place.addedPhotos?.[0]
-                    }
+                    src={place.addedPhotos?.[0]}
                     alt=""
                   />
                 )}

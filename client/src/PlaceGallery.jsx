@@ -32,7 +32,7 @@ export default function PlaceGallery({ place }) {
           {place?.addedPhotos?.length > 0 &&
             place.addedPhotos.map((photo) => (
               <div>
-                <img src={"http://localhost:4000/uploads/" + photo} alt="" />
+                <img src={photo} alt="" />
               </div>
             ))}
         </div>
@@ -51,7 +51,7 @@ export default function PlaceGallery({ place }) {
                     setShowAllPhotos(true);
                   }}
                   className="aspect-square cursor-pointer object-cover"
-                  src={"http://localhost:4000/uploads/" + place.addedPhotos[0]}
+                  src={place.addedPhotos[0]}
                   alt=""
                 />
               </div>
@@ -64,7 +64,7 @@ export default function PlaceGallery({ place }) {
                   setShowAllPhotos(true);
                 }}
                 className="aspect-square cursor-pointer object-cover"
-                src={"http://localhost:4000/uploads/" + place.addedPhotos[1]}
+                src={place.addedPhotos[1]}
                 alt=""
               />
             )}
@@ -75,7 +75,7 @@ export default function PlaceGallery({ place }) {
                     setShowAllPhotos(true);
                   }}
                   className="aspect-square cursor=pointer object-cover relative top-2"
-                  src={"http://localhost:4000/uploads/" + place.addedPhotos[2]}
+                  src={place.addedPhotos[2]}
                   alt=""
                 />
               )}
