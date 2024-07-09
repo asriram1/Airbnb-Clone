@@ -31,9 +31,9 @@ app.use(
   })
 );
 
-app.use("/", (req, res) => {
-  res.send("server is running.");
-});
+// app.use("/", (req, res) => {
+//   res.send("server is running.");
+// });
 
 mongoose.connect(process.env.MONGO_URL);
 
