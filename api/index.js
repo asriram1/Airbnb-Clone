@@ -41,8 +41,8 @@ app.use(cookieParser());
 //   })
 // );
 
-app.use("/", (req, res) => {
-  const conn = mongoose.connect(process.env.MONGODB_URI);
+app.use("/", async (req, res) => {
+  const conn = await mongoose.connect(process.env.MONGODB_URI);
   res.send(conn);
 });
 
