@@ -5,7 +5,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-// const User = require("./models/User.js");
+const User = require("./models/User.js");
 const cookieParser = require("cookie-parser");
 const imageDownloader = require("image-downloader");
 const multer = require("multer");
@@ -13,16 +13,6 @@ const Place = require("./models/Place.js");
 const fs = require("fs");
 const PlaceModel = require("./models/Place.js");
 const BookingModel = require("./models/Booking.js");
-
-const { Schema } = mongoose;
-
-const UserSchema = new mongoose.Schema({
-  name: String,
-  email: { type: String, unique: true },
-  password: String,
-});
-
-const UserModel = mongoose.model("User", UserSchema);
 
 const app = express();
 
@@ -34,51 +24,24 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 // app.use("/uploads", express.static(__dirname + "/uploads"));
 
-// app.use(
-//   cors({
-//     // credentials: true,
-//     // origin: "http://localhost:5173",
-//   })
-// );
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:5173",
+  })
+);
 
-app.use("/", async (req, res) => {
-  try {
-    const mongoClient = await new MongoClient(
-      "mongodb+srv://vercel-admin-user:SVlpQoL3unoqXpsh@cluster0.hjsxgok.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
-      // "mongodb+srv://vercel-admin-user:SVlpQoL3unoqXpsh@cluster0.hjsxgok.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-      {}
-    ).connect();
-    const db = mongoClient.db("test");
-    // const db = mongoClient.db("myFirstDatabase");
-    const collection = db.collection("users");
-    // const inserted = collection.insert({
-    //   name: "Ani",
-    //   email: "nir@gmail",
-    //   password: "random",
-    // });
-    const results = await collection.find({});
-    console.log("COnnected.", results);
-    return res.json(results);
-  } catch (e) {
-    console.log(e);
-  }
-  // const conn = await mongoose.connect(process.env.MONGODB_URI);
-  // res.send(conn);
-});
-
-const conn = mongoose.connect(process.env.MONGODB_URI);
-console.log(conn);
+mongoose.connect(process.env.MONGO_URL);
 
 app.get("/test", (req, res) => {
   res.json("test ok");
 });
 
 app.post("/register", async (req, res) => {
-  mongoose.connect(process.env.MONGODB_URI);
   const { name, email, password } = req.body;
 
   try {
-    const userDoc = await UserModel.create({
+    const userDoc = await User.create({
       name,
       email,
       password: bcrypt.hashSync(password, bcryptSalt),
@@ -284,7 +247,7 @@ app.get("/bookings", async (req, res) => {
   res.json(await BookingModel.find({ user: userData.id }).populate("place"));
 });
 
-app.listen(4000, console.log("server has started on port 4000."));
+app.listen(4000);
 
 // const { MongoClient, ServerApiVersion } = require('mongodb');
 // const uri = "mongodb+srv://booking:test@cluster0.hjsxgok.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
