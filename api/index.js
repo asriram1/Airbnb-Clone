@@ -47,7 +47,8 @@ app.use("/", async (req, res) => {
       "mongodb+srv://vercel-admin-user:SVlpQoL3unoqXpsh@cluster0.hjsxgok.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
       {}
     ).connect();
-    const collection = mongoClient.collection("users");
+    const db = mongoClient.db("myFirstDatabase");
+    const collection = db.collection("users");
     const results = await collection.find({});
     console.log("COnnected.", results);
     return res.json(results);
