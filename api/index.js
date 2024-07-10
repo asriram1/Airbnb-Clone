@@ -14,7 +14,6 @@ const fs = require("fs");
 const PlaceModel = require("./models/Place.js");
 const BookingModel = require("./models/Booking.js");
 
-const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const UserSchema = new mongoose.Schema({
