@@ -14,6 +14,17 @@ const fs = require("fs");
 const PlaceModel = require("./models/Place.js");
 const BookingModel = require("./models/Booking.js");
 
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
+
+const UserSchema = new mongoose.Schema({
+  name: String,
+  email: { type: String, unique: true },
+  password: String,
+});
+
+const UserModel = mongoose.model("User", UserSchema);
+
 const app = express();
 
 const bcryptSalt = bcrypt.genSaltSync(10);
@@ -46,7 +57,7 @@ app.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
-    const userDoc = await User.create({
+    const userDoc = await UserModel.create({
       name,
       email,
       password: bcrypt.hashSync(password, bcryptSalt),
