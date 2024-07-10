@@ -49,7 +49,7 @@ app.use("/", async (req, res) => {
     ).connect();
     const db = mongoClient.db("myFirstDatabase");
     const collection = db.collection("users");
-    const inserted = db.collection.insert({
+    const inserted = collection.insert({
       name: "Ani",
       email: "nir@gmail",
       password: "random",
