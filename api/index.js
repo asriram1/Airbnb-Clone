@@ -24,12 +24,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 // app.use("/uploads", express.static(__dirname + "/uploads"));
 
-app.use(
-  cors({
-    // credentials: true,
-    // origin: "http://localhost:5173",
-  })
-);
+// app.use(
+//   cors({
+//     // credentials: true,
+//     // origin: "http://localhost:5173",
+//   })
+// );
 
 // app.use("/", (req, res) => {
 //   res.send("server is running.");
@@ -42,6 +42,7 @@ app.get("/test", (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
+  mongoose.connect(process.env.MONGODB_URI);
   const { name, email, password } = req.body;
 
   try {
