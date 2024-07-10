@@ -35,7 +35,7 @@ app.use(
 //   res.send("server is running.");
 // });
 
-mongoose.connect(process.env.MONGO_URL);
+mongoose.connect(process.env.MONGODB_URI);
 
 app.get("/test", (req, res) => {
   res.json("test ok");
