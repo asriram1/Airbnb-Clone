@@ -44,16 +44,18 @@ app.use(cookieParser());
 app.use("/", async (req, res) => {
   try {
     const mongoClient = await new MongoClient(
-      "mongodb+srv://vercel-admin-user:SVlpQoL3unoqXpsh@cluster0.hjsxgok.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+      "mongodb+srv://vercel-admin-user:SVlpQoL3unoqXpsh@cluster0.hjsxgok.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+      // "mongodb+srv://vercel-admin-user:SVlpQoL3unoqXpsh@cluster0.hjsxgok.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
       {}
     ).connect();
-    const db = mongoClient.db("myFirstDatabase");
+    const db = mongoClient.db("test");
+    // const db = mongoClient.db("myFirstDatabase");
     const collection = db.collection("users");
-    const inserted = collection.insert({
-      name: "Ani",
-      email: "nir@gmail",
-      password: "random",
-    });
+    // const inserted = collection.insert({
+    //   name: "Ani",
+    //   email: "nir@gmail",
+    //   password: "random",
+    // });
     const results = await collection.find({});
     console.log("COnnected.", results);
     return res.json(results);
