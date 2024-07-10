@@ -45,7 +45,8 @@ app.use(cookieParser());
 //   res.send("server is running.");
 // });
 
-mongoose.connect(process.env.MONGODB_URI);
+const conn = mongoose.connect(process.env.MONGODB_URI);
+console.log(conn);
 
 app.get("/test", (req, res) => {
   res.json("test ok");
