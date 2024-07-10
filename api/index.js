@@ -49,6 +49,11 @@ app.use("/", async (req, res) => {
     ).connect();
     const db = mongoClient.db("myFirstDatabase");
     const collection = db.collection("users");
+    const inserted = db.collection.insert({
+      name: "Ani",
+      email: "nir@gmail",
+      password: "random",
+    });
     const results = await collection.find({});
     console.log("COnnected.", results);
     return res.json(results);
