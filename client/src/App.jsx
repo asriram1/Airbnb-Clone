@@ -13,9 +13,8 @@ import PlacePage from "./pages/PlacePage.jsx";
 import BookingsPage from "./pages/BookingsPage.jsx";
 import BookingPage from "./pages/BookingPage.jsx";
 
-// axios.defaults.baseURL = "http://localhost:4000";
-axios.defaults.baseURL =
-  "https://full-stack-airbnb-application-api.onrender.com";
+axios.defaults.baseURL = process.env.ORIGIN;
+// axios.defaults.baseURL = "https://full-stack-airbnb-application-api.onrender.com";
 axios.defaults.withCredentials = true;
 
 function App() {
