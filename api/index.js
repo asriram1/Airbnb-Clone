@@ -27,7 +27,10 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    // origin: process.env.ORIGIN,
+    origin: [
+      "http://localhost:5173",
+      "https://full-stack-airbnb-application-client.vercel.app",
+    ],
   })
 );
 
