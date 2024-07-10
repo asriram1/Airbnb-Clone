@@ -47,7 +47,8 @@ app.use("/", async (req, res) => {
       "mongodb+srv://vercel-admin-user:SVlpQoL3unoqXpsh@cluster0.hjsxgok.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
       {}
     ).connect();
-    console.log("COnnected.", mongoClient);
+    console.log("COnnected.");
+    return res.json(mongoClient);
   } catch (e) {
     console.log(e);
   }
