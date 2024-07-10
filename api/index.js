@@ -42,8 +42,17 @@ app.use(cookieParser());
 // );
 
 app.use("/", async (req, res) => {
-  const conn = await mongoose.connect(process.env.MONGODB_URI);
-  res.send(conn);
+  try {
+    const mongoClient = await new MongoClient(
+      "mongodb+srv://vercel-admin-user:SVlpQoL3unoqXpsh@cluster0.hjsxgok.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+      {}
+    ).connect();
+    console.log("COnnected.", mongoClient);
+  } catch (e) {
+    console.log(e);
+  }
+  // const conn = await mongoose.connect(process.env.MONGODB_URI);
+  // res.send(conn);
 });
 
 const conn = mongoose.connect(process.env.MONGODB_URI);
