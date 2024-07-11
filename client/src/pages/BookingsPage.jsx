@@ -17,7 +17,7 @@ export default function BookingsPage() {
   return (
     <div>
       <AccountNav />
-      <div>
+      <div className="h-[70vh]">
         {bookings?.length > 0 &&
           bookings.map((booking) => (
             <Link

@@ -2,11 +2,18 @@ import { Link } from "react-router-dom";
 import Header from "../Header";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import AltHeader from "../AltHeader";
 
-export default function IndexPage() {
+export default function IndexPage({ continent }) {
   const [places, setPlaces] = useState([]);
+  const params = {};
+  if (continent) {
+    params["continent"] = continent;
+  }
+
   useEffect(() => {
-    axios.get("/places").then((response) => {
+    axios.get("/places", { params: params }).then((response) => {
+      console.log(response);
       setPlaces(response.data);
     });
   }, []);

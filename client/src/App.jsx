@@ -12,15 +12,9 @@ import PlacesFormPage from "./pages/PlacesFormPage.jsx";
 import PlacePage from "./pages/PlacePage.jsx";
 import BookingsPage from "./pages/BookingsPage.jsx";
 import BookingPage from "./pages/BookingPage.jsx";
-import dotenv from "dotenv";
-// require("dotenv").config();
-// require("dotenv").config({ path: "../.env" });
+import AltHeader from "./AltHeader.jsx";
 
-// console.log(process.env);
 axios.defaults.baseURL = import.meta.env.VITE_REACT_APP_ORIGIN;
-// axios.defaults.baseURL = process.env.REACT_APP_ORIGIN;
-// axios.defaults.baseURL =
-// "https://full-stack-airbnb-application-api.onrender.com";
 axios.defaults.withCredentials = true;
 
 function App() {

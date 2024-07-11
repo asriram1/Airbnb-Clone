@@ -18,7 +18,7 @@ export default function PlacesPage() {
   return (
     <div>
       <AccountNav />
-      <div className="text-center">
+      <div className="text-center ">
         <Link
           className="inline-flex gap-1 bg-primary text-white py-2 px-6 rounded-full"
           to={"/account/places/new"}
@@ -40,7 +40,7 @@ export default function PlacesPage() {
           Add New Place
         </Link>
       </div>
-      <div className="mt-4">
+      <div className="mt-4 ">
         {places.length > 0 &&
           places.map((place) => (
             <Link

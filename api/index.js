@@ -209,7 +209,11 @@ app.put("/places", async (req, res) => {
 });
 
 app.get("/places", async (req, res) => {
-  res.json(await Place.find());
+  const { continent } = req.query;
+
+  console.log(continent);
+
+  res.json(await Place.find({ continent: continent }));
 });
 
 app.post("/booking", async (req, res) => {

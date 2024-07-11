@@ -1,0 +1,17 @@
+UI
+1. Fix calendar so easy select between dates & dates appear
+as two input boxes.
+
+2. Select dropdown with few countries\
+
+3. Input for Number of guests allowed
+
+4. Add footer
+
+5. Add a dropdown for the profile button
+
+API
+
+1. Have the accomodations filtered based on the selection.
+
+

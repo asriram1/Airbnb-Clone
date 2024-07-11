@@ -23,3 +23,7 @@ button.primary {
   background-color: #ff385c;
   @apply bg-primary p-2 w-full text-white rounded-2xl;
 }
+
+.select-outer {
+  @apply bg-gray-300;
+}

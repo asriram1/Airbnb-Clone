@@ -1,13 +1,39 @@
 import { Link } from "react-router-dom";
-import React from "react";
+import React, { useEffect } from "react";
 import { UserContext } from "./UserContext";
 import { useContext, useState } from "react";
+import { useLocation } from "react-router-dom";
+
+import AltHeader from "./AltHeader";
 
 export default function Header() {
   const { user } = useContext(UserContext);
+  const [scroll, setScroll] = useState(false);
+  const [home, setHome] = useState(false);
+  const location = useLocation();
+  const pathName = location.pathname;
+
+  // if (pathName === "/") {
+  //   setHome(true);
+  // }
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.addEventListener("scroll", () => {
+        setScroll(window.scrollY > 100);
+      });
+    }
+  }, []);
   return (
-    <header className="flex justify-between">
-      <Link to={"/"} className="flex items-center gap-1">
+    <header
+      className={
+        pathName !== "/"
+          ? " z-50 flex justify-between sticky top-0 h-16 items-center bg-white"
+          : "z-50 flex sticky top-0 justify-between h-48 bg-white shadow"
+        // "flex justify-between sticky top-0  h-48 items-center "
+      }
+    >
+      <Link to={"/"} className="flex mt-3 ml-3 gap-1">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -24,32 +50,43 @@ export default function Header() {
         </svg>
         <span className="font-bold text-xl">airbnb</span>
       </Link>
-      <div className="flex gap-2 border border-gray-300 rounded-full py-2 px-4 shadow-md shadow-gray-300">
-        <div>Anywhere</div>
-        <div className="border border-l border-gray-300"></div>
-        <div>Any week</div>
-        <div className="border border-l border-gray-300"></div>
-        <div>Add guests</div>
-        <button className="bg-primary text-white p-1 rounded-full">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            class="w-4 h-4"
+
+      {pathName !== "/" ? (
+        <div className="flex gap-2 border border-gray-300 rounded-full py-2 px-4 shadow-md shadow-gray-300 h-12">
+          <div>Anywhere</div>
+          <div className="border border-l border-gray-300"></div>
+          <div>Any week</div>
+          <div className="border border-l border-gray-300"></div>
+          <div>Add guests</div>
+          <button
+            className="bg-primary text-white p-1 rounded-full "
+            onClick={() => {
+              window.scrollTo(0, 0);
+            }}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-            />
-          </svg>
-        </button>
-      </div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              class="w-4 h-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+              />
+            </svg>
+          </button>
+        </div>
+      ) : (
+        <AltHeader />
+      )}
+
       <Link
         to={user ? "/account" : "/login"}
-        className="flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4"
+        className="flex mr-3 items-center gap-2 border border-gray-300 rounded-full py-2 px-4 h-12"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
