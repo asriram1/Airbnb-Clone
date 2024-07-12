@@ -8,6 +8,7 @@ import IndexPage from "./pages/IndexPage";
 import { Link } from "react-router-dom";
 import { UserContext } from "./UserContext";
 import axios from "axios";
+import Dropdown from "./Dropdown";
 
 export default function AltHeader2() {
   const [hidden, setHidden] = useState(true);
@@ -74,7 +75,7 @@ export default function AltHeader2() {
   ];
 
   const guestOptions = [
-    { value: null, label: "Show All" },
+    { value: null, label: "Guests" },
     { value: "1", label: "1" },
     { value: "2", label: "2" },
     { value: "3", label: "3" },
@@ -131,6 +132,9 @@ export default function AltHeader2() {
     to: addDays(new Date(), 4),
   };
 
+  function handleSelect(id) {
+    console.log(`Selected item with id ${id}`);
+  }
   const [range, setRange] = useState(initialRange);
   return (
     <>
@@ -613,7 +617,7 @@ export default function AltHeader2() {
             </div>
           </div>
 
-          <Link
+          {/* <Link
             to={user ? "/account" : "/login"}
             className="flex mr-3 items-center gap-2 border border-gray-300 rounded-full py-2 px-4 h-12"
           >
@@ -646,7 +650,20 @@ export default function AltHeader2() {
               </svg>
             </div>
             {!!user && <div>{user.name}</div>}
-          </Link>
+          </Link> */}
+
+          <Dropdown
+            id="login"
+            title={!!user && <div>{user.name}</div>}
+            data={[
+              { id: "1", name: "Minni" },
+              { id: "2", name: "Mickey" },
+            ]}
+            user={!!user}
+            hasImage={false}
+            style="bg-purple-800"
+            onSelect={handleSelect}
+          />
         </header>
 
         <div className="mt-8 grid gap-x-6 gap-y-8  grid-cols-2 md:grid-cols-3 lg:grid-cols-4">

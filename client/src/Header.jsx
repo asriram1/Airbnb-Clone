@@ -5,6 +5,7 @@ import { useContext, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import AltHeader from "./AltHeader";
+import Dropdown from "./Dropdown";
 
 export default function Header() {
   const { user } = useContext(UserContext);
@@ -52,7 +53,7 @@ export default function Header() {
       </Link>
 
       {pathName !== "/" ? (
-        <div className="flex gap-2 border border-gray-300 rounded-full py-2 px-4 shadow-md shadow-gray-300 h-12">
+        <div className="flex gap-2 border border-gray-300 rounded-full py-2 px-4 shadow-md shadow-gray-300 h-12 ml-24">
           <div>Anywhere</div>
           <div className="border border-l border-gray-300"></div>
           <div>Any week</div>
@@ -85,6 +86,19 @@ export default function Header() {
         // <AltHeader />
       )}
 
+      <Dropdown
+        id="login"
+        title={!!user && <div>{user.name}</div>}
+        data={[
+          { id: "1", name: "Minni" },
+          { id: "2", name: "Mickey" },
+        ]}
+        user={!!user}
+        hasImage={false}
+        style="bg-purple-800"
+      />
+
+      {/* 
       <Link
         to={user ? "/account" : "/login"}
         className="flex mr-3 items-center gap-2 border border-gray-300 rounded-full py-2 px-4 h-12"
@@ -118,7 +132,7 @@ export default function Header() {
           </svg>
         </div>
         {!!user && <div>{user.name}</div>}
-      </Link>
+      </Link> */}
     </header>
   );
 }
