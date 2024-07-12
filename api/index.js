@@ -39,23 +39,23 @@ const session = require("express-session");
 
 const app = express();
 
-const sessionConfig = {
-  secret: "MYSECRET",
-  name: "appName",
-  resave: false,
-  saveUninitialized: false,
-  // store: store,
-  cookie: {
-    sameSite: "None", // THIS is the config you are looking for.
-    secure: true,
-    httpOnly: false,
-  },
-};
+// const sessionConfig = {
+//   secret: "MYSECRET",
+//   name: "appName",
+//   resave: false,
+//   saveUninitialized: false,
+//   // store: store,
+//   cookie: {
+//     sameSite: "None", // THIS is the config you are looking for.
+//     secure: true,
+//     httpOnly: false,
+//   },
+// };
 
-if (process.env.NODE_ENV === "production") {
-  app.set("trust proxy", 1); // trust first proxy
-  sessionConfig.cookie.secure = true; // serve secure cookies
-}
+// if (process.env.NODE_ENV === "production") {
+//   app.set("trust proxy", 1); // trust first proxy
+//   sessionConfig.cookie.secure = true; // serve secure cookies
+// }
 
 const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = "mysecret";
@@ -63,7 +63,7 @@ const jwtSecret = "mysecret";
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(session(sessionConfig));
+// app.use(session(sessionConfig));
 
 // app.use("/uploads", express.static(__dirname + "/uploads"));
 
