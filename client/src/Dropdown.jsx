@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 
 import React from "react";
@@ -6,12 +6,13 @@ import { GoChevronDown } from "react-icons/go";
 import UseOutsideClick from "./UseOutsideClick";
 import { Link, Navigate } from "react-router-dom";
 import axios from "axios";
+import { UserContext } from "./UserContext";
 
 export default function Dropdown({
   id,
   title,
   data,
-  user,
+  //   user,
   position,
   hasImage,
   style,
@@ -20,6 +21,8 @@ export default function Dropdown({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState("");
+  const { user, setUser } = useContext(UserContext);
+  const [logout, setLogout] = useState(null);
   function handleChange(item) {
     setSelectedItem(item);
     if (onSelect) {
@@ -37,7 +40,7 @@ export default function Dropdown({
         setSelectedItem(undefined);
       }
     }
-  }, [selectedId, data]);
+  }, [selectedId, data, logout]);
 
   const dropdownRef = useRef(null);
   UseOutsideClick({
@@ -45,15 +48,23 @@ export default function Dropdown({
     handler: () => setIsOpen(false),
   });
 
-  async function logout() {
+  async function logoutFunc() {
     console.log("logout here");
 
-    axios.post("/logout").then((res) => {
-      console.log(res);
-      window.location.href = "/login";
-    });
+    const res = await axios.post("/logout");
+    console.log(res);
+    setUser(null);
+
+    setLogout(true);
+    // setTimeout(() => {
+
+    // }, 3000);
 
     // <Navigate to={"/login"} />;
+  }
+
+  if (logout) {
+    return <Navigate to={"/login"} />;
   }
 
   const dropdownClass = classNames(
@@ -160,7 +171,7 @@ export default function Dropdown({
                   <span>My Accomodations</span>
                 </Link>
                 <Link
-                  onClick={logout}
+                  onClick={logoutFunc}
                   //   key={item.id}
                   // onClick={() => handleChange(item)}
                   className={classNames(
