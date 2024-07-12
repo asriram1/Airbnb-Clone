@@ -26,16 +26,16 @@ const session = require("express-session");
 //   createtable: false,
 // });
 
-const store = new ConnectSessionKnexStore({
-  knex: knexConstructor({
-    client: "sqlite",
-    connection: ":memory:",
-    connection: {
-      filename: "connect-session-knex.sqlite",
-    },
-  }),
-  cleanupInterval: 0, // disable session cleanup
-});
+// const store = new ConnectSessionKnexStore({
+//   knex: knexConstructor({
+//     client: "sqlite",
+//     connection: ":memory:",
+//     connection: {
+//       filename: "connect-session-knex.sqlite",
+//     },
+//   }),
+//   cleanupInterval: 0, // disable session cleanup
+// });
 
 const app = express();
 
@@ -44,7 +44,7 @@ const sessionConfig = {
   name: "appName",
   resave: false,
   saveUninitialized: false,
-  store: store,
+  // store: store,
   cookie: {
     sameSite: "None", // THIS is the config you are looking for.
     secure: true,
@@ -205,7 +205,7 @@ app.post("/places", (req, res) => {
 
 app.get("/user-places", (req, res) => {
   const { token } = req.cookies;
-  console.log(token);
+  console.log(req);
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     console.log(userData);
     const { id } = userData;
