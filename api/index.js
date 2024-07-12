@@ -47,6 +47,8 @@ const sessionConfig = {
   store: store,
   cookie: {
     sameSite: "None", // THIS is the config you are looking for.
+    secure: true,
+    httpOnly: false,
   },
 };
 
@@ -203,6 +205,7 @@ app.post("/places", (req, res) => {
 
 app.get("/user-places", (req, res) => {
   const { token } = req.cookies;
+  console.log(token);
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     console.log(userData);
     const { id } = userData;
