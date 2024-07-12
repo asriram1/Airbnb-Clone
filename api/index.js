@@ -14,7 +14,16 @@ const fs = require("fs");
 const PlaceModel = require("./models/Place.js");
 const BookingModel = require("./models/Booking.js");
 
+const KnexSessionStore = require("connect-session-knex");
+
 const session = require("express-session");
+
+// const knexSession = KnexSessionStore(session);
+// const store = new knexSession({
+//   tablename: "session",
+//   knex: kx,
+//   createtable: false,
+// });
 
 const sessionConfig = {
   secret: "MYSECRET",
@@ -26,6 +35,11 @@ const sessionConfig = {
     sameSite: "None", // THIS is the config you are looking for.
   },
 };
+
+if (process.env.NODE_ENV === "production") {
+  app.set("trust proxy", 1); // trust first proxy
+  sessionConfig.cookie.secure = true; // serve secure cookies
+}
 
 const app = express();
 
