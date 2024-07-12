@@ -25,6 +25,8 @@ const session = require("express-session");
 //   createtable: false,
 // });
 
+const app = express();
+
 const sessionConfig = {
   secret: "MYSECRET",
   name: "appName",
@@ -40,8 +42,6 @@ if (process.env.NODE_ENV === "production") {
   app.set("trust proxy", 1); // trust first proxy
   sessionConfig.cookie.secure = true; // serve secure cookies
 }
-
-const app = express();
 
 const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = "mysecret";
