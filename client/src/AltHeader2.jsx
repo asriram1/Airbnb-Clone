@@ -659,7 +659,7 @@ export default function AltHeader2() {
               { id: "1", name: "Minni" },
               { id: "2", name: "Mickey" },
             ]}
-            user={!!user}
+            // user={!!user}
             hasImage={false}
             style="bg-purple-800"
             onSelect={handleSelect}
