@@ -128,8 +128,10 @@ app.post("/places", (req, res) => {
   const {
     title,
     address,
+    continent,
     addedPhotos,
     description,
+    category,
     perks,
     extraInfo,
     checkIn,
@@ -143,8 +145,10 @@ app.post("/places", (req, res) => {
       owner: userData.id,
       title,
       address,
+      continent,
       addedPhotos,
       description,
+      category,
       perks,
       extraInfo,
       checkIn,
@@ -177,6 +181,8 @@ app.put("/places", async (req, res) => {
     address,
     addedPhotos,
     description,
+    category,
+    continent,
     perks,
     extraInfo,
     checkIn,
@@ -193,8 +199,10 @@ app.put("/places", async (req, res) => {
         id,
         title,
         address,
+        continent,
         addedPhotos,
         description,
+        category,
         perks,
         extraInfo,
         checkIn,
@@ -208,12 +216,31 @@ app.put("/places", async (req, res) => {
   });
 });
 
+app.get("/google", (req, res) => {});
+
 app.get("/places", async (req, res) => {
-  const { continent } = req.query;
+  const { continent, guests, category } = req.query;
 
-  console.log(continent);
+  const params = {};
 
-  res.json(await Place.find({ continent: continent }));
+  if (continent) {
+    params["continent"] = continent;
+  }
+
+  if (guests) {
+    if (guests != "10+") {
+      var guestsNum = Number(guests);
+      params["maxGuests"] = { $lte: guestsNum };
+    } else {
+      params["maxGuests"] = { $gte: 10 };
+    }
+  }
+
+  if (category) {
+    params["category"] = category;
+  }
+
+  res.json(await Place.find(params));
 });
 
 app.post("/booking", async (req, res) => {

@@ -10,6 +10,8 @@ as two input boxes.
 
 5. Add a dropdown for the profile button
 
+6. Make the header responsive when smaller screen
+
 API
 
 1. Have the accomodations filtered based on the selection.

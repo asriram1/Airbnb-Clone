@@ -231,6 +231,13 @@
   resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.2.4.tgz#1d459cee5031893a08a0e064c406ad2130cced7c"
   integrity sha512-dWO2pw8hhi+WrXq1YJy2yCuWoL20PddgGaqTgVe4cOS9Q6qklXCiA1tJEqX6BEwRNSCP84/afac9hd4MS+zEUA==
 
+"@googlemaps/js-api-loader@^1.16.6":
+  version "1.16.6"
+  resolved "https://registry.yarnpkg.com/@googlemaps/js-api-loader/-/js-api-loader-1.16.6.tgz#c89970c94b55796d51746c092f0e52953994a171"
+  integrity sha512-V8p5W9DbPQx74jWUmyYJOerhiB4C+MHekaO0ZRmc6lrOYrvY7+syLhzOWpp55kqSPeNb+qbC2h8i69aLIX6krQ==
+  dependencies:
+    fast-deep-equal "^3.1.3"
+
 "@jridgewell/gen-mapping@^0.3.5":
   version "0.3.5"
   resolved "https://registry.yarnpkg.com/@jridgewell/gen-mapping/-/gen-mapping-0.3.5.tgz#dcce6aff74bdf6dad1a95802b69b04a2fcb1fb36"
@@ -680,6 +687,11 @@ escape-string-regexp@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz#14ba83a5d373e3d311e5afca29cf5bfad965bf34"
   integrity sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==
+
+fast-deep-equal@^3.1.3:
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz#3a7d56b559d6cbc3eb512325244e619a65c6c525"
+  integrity sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==
 
 find-root@^1.1.0:
   version "1.1.0"

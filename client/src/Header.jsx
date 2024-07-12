@@ -81,7 +81,8 @@ export default function Header() {
           </button>
         </div>
       ) : (
-        <AltHeader />
+        <div></div>
+        // <AltHeader />
       )}
 
       <Link
