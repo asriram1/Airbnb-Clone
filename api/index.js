@@ -230,7 +230,7 @@ app.get("/places", async (req, res) => {
   if (guests) {
     if (guests != "10+") {
       var guestsNum = Number(guests);
-      params["maxGuests"] = { $lte: guestsNum };
+      params["maxGuests"] = { $gte: guestsNum };
     } else {
       params["maxGuests"] = { $gte: 10 };
     }

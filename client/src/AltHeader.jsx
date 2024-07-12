@@ -73,6 +73,7 @@ export default function AltHeader() {
   ];
 
   const guestOptions = [
+    { value: null, label: "Show All" },
     { value: "1", label: "1" },
     { value: "2", label: "2" },
     { value: "3", label: "3" },
@@ -84,6 +85,28 @@ export default function AltHeader() {
     { value: "9", label: "9" },
     { value: "10+", label: "10+" },
   ];
+
+  const continentMap = {
+    null: 0,
+    "North America": 1,
+    "South America": 2,
+    Europe: 3,
+    Asia: 4,
+  };
+
+  const guestMap = {
+    null: 0,
+    1: 1,
+    2: 2,
+    3: 3,
+    4: 4,
+    5: 5,
+    6: 6,
+    7: 7,
+    8: 8,
+    9: 9,
+    "10+": 10,
+  };
 
   const colourStyles = {
     control: (styles) => ({
@@ -111,7 +134,25 @@ export default function AltHeader() {
   return (
     <>
       <header className="z-50 flex sticky top-0 justify-between h-54 bg-white shadow">
-        <Link to={"/"} className="flex mt-3 ml-3 gap-1">
+        <Link
+          to={"/"}
+          onClick={() => {
+            setCategory(null);
+            setContinent(null);
+            setGuests(null);
+            setSelectAll(true);
+            setSelectBeachfront(false);
+            setSelectCastle(false);
+            setSelectIcon(false);
+            setSelectIsland(false);
+            setSelectMansion(false);
+            setSelectOMG(false);
+            setSelectPlay(false);
+            setSelectTheTop(false);
+            setSelectTropical(false);
+          }}
+          className="flex mt-3 ml-3 gap-1"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -142,6 +183,7 @@ export default function AltHeader() {
                       setContinent(ev.value);
                     }}
                     defaultValue={[selectOptions[0]]}
+                    value={selectOptions[continentMap[continent]]}
                     formatOptionLabel={(locale) => (
                       <div className="flex gap-2 items-center">
                         <img
@@ -221,6 +263,7 @@ export default function AltHeader() {
                       setGuests(ev.value);
                     }}
                     options={guestOptions}
+                    value={guestOptions[guestMap[guests]]}
                     placeholder="Add Guests"
                     formatOptionLabel={(guest) => (
                       <span className="text-gray-400">{guest.label}</span>
