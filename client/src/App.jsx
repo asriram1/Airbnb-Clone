@@ -12,7 +12,7 @@ import PlacesFormPage from "./pages/PlacesFormPage.jsx";
 import PlacePage from "./pages/PlacePage.jsx";
 import BookingsPage from "./pages/BookingsPage.jsx";
 import BookingPage from "./pages/BookingPage.jsx";
-import AltHeader from "./AltHeader.jsx";
+import AltHeader2 from "./AltHeader2.jsx";
 
 axios.defaults.baseURL = import.meta.env.VITE_REACT_APP_ORIGIN;
 axios.defaults.withCredentials = true;
@@ -23,7 +23,7 @@ function App() {
       <UserContextProvider>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route index element={<AltHeader />} />
+            <Route index element={<AltHeader2 />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/account/" element={<ProfilePage />} />
