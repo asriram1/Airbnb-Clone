@@ -14,6 +14,19 @@ const fs = require("fs");
 const PlaceModel = require("./models/Place.js");
 const BookingModel = require("./models/Booking.js");
 
+const session = require("express-session");
+
+const sessionConfig = {
+  secret: "MYSECRET",
+  name: "appName",
+  resave: false,
+  saveUninitialized: false,
+  // store: store,
+  cookie: {
+    sameSite: "None", // THIS is the config you are looking for.
+  },
+};
+
 const app = express();
 
 const bcryptSalt = bcrypt.genSaltSync(10);
@@ -22,6 +35,8 @@ const jwtSecret = "mysecret";
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(session(sessionConfig));
+
 // app.use("/uploads", express.static(__dirname + "/uploads"));
 
 app.use(
