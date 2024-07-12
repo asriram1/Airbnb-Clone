@@ -14,7 +14,8 @@ const fs = require("fs");
 const PlaceModel = require("./models/Place.js");
 const BookingModel = require("./models/Booking.js");
 
-const KnexSessionStore = require("connect-session-knex");
+const { ConnectSessionKnexStore } = require("connect-session-knex");
+const knexConstructor = require("knex");
 
 const session = require("express-session");
 
@@ -25,6 +26,17 @@ const session = require("express-session");
 //   createtable: false,
 // });
 
+const store = new ConnectSessionKnexStore({
+  knex: knexConstructor({
+    client: "sqlite",
+    connection: ":memory:",
+    connection: {
+      filename: "connect-session-knex.sqlite",
+    },
+  }),
+  cleanupInterval: 0, // disable session cleanup
+});
+
 const app = express();
 
 const sessionConfig = {
@@ -32,7 +44,7 @@ const sessionConfig = {
   name: "appName",
   resave: false,
   saveUninitialized: false,
-  // store: store,
+  store: store,
   cookie: {
     sameSite: "None", // THIS is the config you are looking for.
   },
