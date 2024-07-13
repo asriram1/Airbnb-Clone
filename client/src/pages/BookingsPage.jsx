@@ -27,7 +27,7 @@ export default function BookingsPage() {
           bookings.map((booking) => (
             <Link
               to={"/account/booking/" + booking._id}
-              className="flex gap-4 bg-gray-200 rounded-2xl overflow-hidden"
+              className="flex gap-4 bg-gray-200 rounded-2xl overflow-hidden mb-2"
             >
               <div className="w-48">
                 <PlaceImg place={booking.place} className={"h-full"} />
