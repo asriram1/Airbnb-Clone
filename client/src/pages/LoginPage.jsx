@@ -8,13 +8,16 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
-  const { setUser } = useContext(UserContext);
+  const { setUser, setToken, getToken } = useContext(UserContext);
 
   async function handleLoginSubmit(ev) {
     ev.preventDefault();
     try {
       const { data } = await axios.post("/login", { email, password });
-      setUser(data);
+      setToken(data.token);
+      setUser(data.userDoc);
+      const myToken = getToken();
+      console.log(myToken);
       alert("Login Successful");
       setRedirect(true);
     } catch (e) {

@@ -21,8 +21,9 @@ export default function Dropdown({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState("");
-  const { user, setUser } = useContext(UserContext);
+  const { clearToken, getToken } = useContext(UserContext);
   const [logout, setLogout] = useState(null);
+  const [user, setUser] = useState(null);
   function handleChange(item) {
     setSelectedItem(item);
     if (onSelect) {
@@ -40,6 +41,16 @@ export default function Dropdown({
         setSelectedItem(undefined);
       }
     }
+
+    const myToken = getToken();
+    if (myToken) {
+      const params = {};
+      params["token"] = myToken;
+      axios.get("/profile", { params: params }).then((response) => {
+        console.log(response);
+        setUser(response.data);
+      });
+    }
   }, [selectedId, data, logout]);
 
   const dropdownRef = useRef(null);
@@ -49,10 +60,10 @@ export default function Dropdown({
   });
 
   async function logoutFunc() {
-    console.log("logout here");
-
     const res = await axios.post("/logout");
     console.log(res);
+    clearToken();
+
     setUser(null);
 
     setLogout(true);

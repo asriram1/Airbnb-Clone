@@ -26,7 +26,8 @@ export default function AltHeader2() {
   const [selectOMG, setSelectOMG] = useState(false);
   const [selectPlay, setSelectPlay] = useState(false);
   const [selectTheTop, setSelectTheTop] = useState(false);
-  const { user } = useContext(UserContext);
+  const { getToken } = useContext(UserContext);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     console.log(continent);
@@ -49,6 +50,16 @@ export default function AltHeader2() {
       console.log(response);
       setPlaces(response.data);
     });
+
+    const myToken = getToken();
+    if (myToken) {
+      const params = {};
+      params["token"] = myToken;
+      axios.get("/profile", { params: params }).then((response) => {
+        console.log(response);
+        setUser(response.data);
+      });
+    }
   }, [continent, guests, category, selectAll, selectIcon]);
 
   var options = {

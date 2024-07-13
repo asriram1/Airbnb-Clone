@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import AccountNav from "../AccountNav";
 import { useState } from "react";
 import axios from "axios";
@@ -6,11 +6,16 @@ import PlaceImg from "../PlaceImg";
 import { format, differenceInCalendarDays } from "date-fns";
 import { Link } from "react-router-dom";
 import BookingDates from "../BookingDates";
+import { UserContext } from "../UserContext";
 
 export default function BookingsPage() {
   const [bookings, setBookings] = useState([]);
+  const { getToken } = useContext(UserContext);
   useEffect(() => {
-    axios.get("/bookings").then((response) => {
+    const token = getToken();
+    const params = {};
+    params["token"] = token;
+    axios.get("/bookings", { params: params }).then((response) => {
       setBookings(response.data);
     });
   }, []);

@@ -6,13 +6,15 @@ import { useLocation } from "react-router-dom";
 
 import AltHeader from "./AltHeader";
 import Dropdown from "./Dropdown";
+import axios from "axios";
 
 export default function Header() {
-  const { user } = useContext(UserContext);
+  const { getToken } = useContext(UserContext);
   const [scroll, setScroll] = useState(false);
   const [home, setHome] = useState(false);
   const location = useLocation();
   const pathName = location.pathname;
+  const [user, setUser] = useState(null);
 
   // if (pathName === "/") {
   //   setHome(true);
@@ -22,6 +24,16 @@ export default function Header() {
     if (typeof window !== "undefined") {
       window.addEventListener("scroll", () => {
         setScroll(window.scrollY > 100);
+      });
+    }
+
+    const myToken = getToken();
+    if (myToken) {
+      const params = {};
+      params["token"] = myToken;
+      axios.get("/profile", { params: params }).then((response) => {
+        console.log(response);
+        setUser(response.data);
       });
     }
   }, []);

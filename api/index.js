@@ -111,7 +111,10 @@ app.post("/login", async (req, res) => {
         {},
         (err, token) => {
           if (err) throw err;
-          res.cookie("token", token).json(userDoc);
+          console.log(token);
+          // res.cookie("token", token).json(userDoc);
+          res.json({ token: token, userDoc: userDoc });
+          // res.cookie("token", token).json(userDoc);
         }
       );
     } else {
@@ -123,8 +126,8 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/profile", (req, res) => {
-  const { token } = req.cookies;
-
+  // const { token } = req.cookies;
+  const { token } = req.query;
   if (token) {
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
       // res.json("yes");
@@ -167,8 +170,9 @@ app.post("/logout", (req, res) => {
 // });
 
 app.post("/places", (req, res) => {
-  const { token } = req.cookies;
+  // const { token } = req.cookies;
   const {
+    token,
     title,
     address,
     continent,
@@ -182,6 +186,7 @@ app.post("/places", (req, res) => {
     maxGuests,
     price,
   } = req.body;
+  console.log(token);
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     if (err) throw err;
     const placeDoc = await Place.create({
@@ -204,8 +209,9 @@ app.post("/places", (req, res) => {
 });
 
 app.get("/user-places", (req, res) => {
-  const { token } = req.cookies;
-  console.log(req);
+  // const { token } = req.cookies;
+  const { token } = req.query;
+  console.log(token);
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     console.log(userData);
     const { id } = userData;
@@ -219,9 +225,10 @@ app.get("/places/:id", async (req, res) => {
 });
 
 app.put("/places", async (req, res) => {
-  const { token } = req.cookies;
+  // const { token } = req.cookies;
   const {
     id,
+    token,
     title,
     address,
     addedPhotos,
@@ -235,7 +242,7 @@ app.put("/places", async (req, res) => {
     maxGuests,
     price,
   } = req.body;
-
+  console.log(token);
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     const placeDoc = await Place.findById(id);
     console.log(price);
@@ -289,31 +296,41 @@ app.get("/places", async (req, res) => {
 });
 
 app.post("/booking", async (req, res) => {
-  const userData = await getUserDataFromReq(req);
-  const { place, checkIn, checkOut, numberOfGuests, name, mobile, price } =
-    req.body;
-
-  BookingModel.create({
+  // const userData = await getUserDataFromReq(req);
+  const {
+    token,
     place,
-    user: userData.id,
     checkIn,
     checkOut,
     numberOfGuests,
     name,
     mobile,
     price,
-  })
-    .then((doc) => {
-      res.json(doc);
+  } = req.body;
+
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    BookingModel.create({
+      place,
+      user: userData.id,
+      checkIn,
+      checkOut,
+      numberOfGuests,
+      name,
+      mobile,
+      price,
     })
-    .catch((err) => {
-      throw error;
-    });
+      .then((doc) => {
+        res.json(doc);
+      })
+      .catch((err) => {
+        throw error;
+      });
+  });
 });
 
 function getUserDataFromReq(req) {
   return new Promise((resolve, reject) => {
-    jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData) => {
+    jwt.verify(req.query.token, jwtSecret, {}, async (err, userData) => {
       if (err) throw err;
       resolve(userData);
     });

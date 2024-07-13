@@ -1,20 +1,29 @@
 import { Link, Navigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Perks from "../Perks";
 import axios from "axios";
 import PhotosUploader from "../PhotosUploader";
 import AccountNav from "../AccountNav";
 import PlaceImg from "../PlaceImg";
+import { UserContext } from "../UserContext";
 
 export default function PlacesPage() {
   const [places, setPlaces] = useState([]);
+  const { getToken } = useContext(UserContext);
+  const [token, setToken] = useState(null);
   useEffect(() => {
-    axios.get("/user-places").then(({ data }) => {
-      console.log(data);
+    const myToken = getToken();
+    setToken(myToken);
+    const params = {};
+    if (myToken) {
+      params["token"] = myToken;
+    }
+    console.log(myToken);
+    axios.get("/user-places", { params: params }).then(({ data }) => {
       setPlaces(data);
     });
-  }, []);
+  }, [token, getToken]);
   return (
     <div>
       <AccountNav />

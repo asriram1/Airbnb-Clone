@@ -1,11 +1,12 @@
 import PhotosUploader from "../PhotosUploader";
 import Perks from "../Perks";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import { Link, Navigate, useParams } from "react-router-dom";
 import AccountNav from "../AccountNav";
 import { useEffect } from "react";
 import Select from "react-select";
+import { UserContext } from "../UserContext";
 
 export default function PlacesFormPage() {
   const { id } = useParams();
@@ -22,6 +23,8 @@ export default function PlacesFormPage() {
   const [price, setPrice] = useState(100);
   const [redirect, setRedirect] = useState(false);
   const [category, setCategory] = useState("");
+  const { getToken } = useContext(UserContext);
+  const [token, setToken] = useState(null);
 
   const continents = {
     AD: "Europe",
@@ -340,7 +343,14 @@ export default function PlacesFormPage() {
       setMaxGuests(data.maxGuests);
       setPrice(data.price);
     });
-  }, [id]);
+
+    const myToken = getToken();
+    setToken(myToken);
+    if (!myToken) {
+      alert("Need to login to access this page.");
+      return <Navigate to={"/login"} />;
+    }
+  }, [id, token]);
 
   const [redirectToPlacesList, setRedirectToPlacesList] = useState(false);
 
@@ -416,16 +426,22 @@ export default function PlacesFormPage() {
 
       await axios.put("/places", {
         id,
+        token,
         ...placeData,
       });
 
       setRedirect(true);
     } else {
       //new place
+      const token = getToken();
 
-      setTimeout(() => {
-        axios.post("/places", placeData).then((res) => console.log(res));
-      }, 3000);
+      axios
+        .post("/places", { token, ...placeData })
+        .then((res) => console.log(res));
+
+      // setTimeout(() => {
+
+      // }, 3000);
 
       setRedirect(true);
     }

@@ -11,7 +11,7 @@ export default function BookingWidget({ place }) {
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
   const [redirect, setRedirect] = useState("");
-  const { user } = useContext(UserContext);
+  const { user, getToken } = useContext(UserContext);
 
   useEffect(() => {
     if (user) {
@@ -22,7 +22,9 @@ export default function BookingWidget({ place }) {
   let numberOfNights = 0;
 
   async function bookThisPlace() {
+    const token = getToken();
     const response = await axios.post("/booking", {
+      token,
       checkIn,
       checkOut,
       numberOfGuests,
