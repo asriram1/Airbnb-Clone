@@ -73,6 +73,7 @@ app.use(
     origin: [
       "http://localhost:5173",
       "https://full-stack-airbnb-application-client.vercel.app",
+      "https://mini-airbnb.vercel.app",
     ],
   })
 );
